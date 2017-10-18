@@ -1,0 +1,74 @@
+# Copyright 2016-2007 Alfonso Marin Lopez.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this fileName except in compliance with the License.
+# You may obtain a copy of the License at  
+# 	  http://www.apache.org/licenses/LICENSE-2.0
+#    
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# the list of validations, there are two types of validation, one instance or a list of instances.
+# One Instance:
+#     emptyFieldValidator
+# Many instances, each configuration start with a dash (-)
+#     regexValidator
+#     matchInListValidator
+#     sizeFieldValidator
+# Each configuration has a variable with the name "enabled", true|false.
+# Fields can be:
+#     - date
+#     - description
+#     - value
+
+
+validations: #Validation for the insertion process
+    regexValidator:
+        - regex: "(0\\d|[12]\\d|3[01])[/](0\\d|1[012])[/](19|20)\\d\\d$"
+          field: date
+          enabled: true
+        - regex: "[-+]?(\\d{1,3},?)+\\.?\\d{1,2}$"
+          field: value
+          enabled: true
+    emptyFieldValidator:
+        enabled: true
+        fields:
+          - date
+          - description
+          - value
+    matchInListValidator:
+        - field: type
+          options:
+            - income
+            - expenses
+          enabled: false
+        - field: category
+          options:
+            - home
+            - school
+          enabled: false
+    sizeFieldValidator:
+        - field: description
+          size: 2000
+          enabled: true
+transform:
+    replaceFieldRegexTransform:
+        - field: description
+          regex: "(ANUL )?COMPRA TARJ. \\d{4}X{5,10}\\d{4} ((0\\d|[12]\\d|3[01])[.](0\\d|1[012]) )?"
+          enabled: true
+          replacement: ""
+        - field: value
+          regex: ","
+          enabled: true
+          replacement: ""
+        - field: description
+          regex: "((ELECTRICIDAD IBERDROLA CLIENTES[,.] S.A.U)|(ELECTRICIDAD IBERDROLA COMERCIALIZ. ULTIMO R IBERDROLA ELECTRI))"
+          replacement: "Iberdrola"
+          enabled: true
+
+
+   

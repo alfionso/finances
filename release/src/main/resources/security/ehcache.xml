@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright 2016-2007 Alfonso Marin Lopez.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this fileName except in compliance with the License.
+  ~ You may obtain a copy of the License at  
+  ~ 	  http://www.apache.org/licenses/LICENSE-2.0
+  ~   
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true"
+         monitoring="autodetect"
+         dynamicConfig="true">
+
+    <diskStore path="java.io.tmpdir" />
+
+    <cache name="securityCache"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="1000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToLiveSeconds="43200"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="security-web-filter-cache"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="100"
+           timeToLiveSeconds="1800"
+           overflowToDisk="false">
+    </cache>
+
+</ehcache>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2016-2007 Alfonso Marin Lopez.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this fileName except in compliance with the License.
+  ~ You may obtain a copy of the License at  
+  ~ 	  http://www.apache.org/licenses/LICENSE-2.0
+  ~   
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>es.alfonsomarin</groupId>
+    <artifactId>finances</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    
+
+    <properties>
+        <jdk.version>1.8</jdk.version>
+        <!-- package phase-->
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version> 
+        <!-- compile phase-->
+        <maven-compiler-plugin.version>3.6.2</maven-compiler-plugin.version>
+        <!-- unit test phase -->
+        <maven-surefire-plugin.version>2.20</maven-surefire-plugin.version>
+        <!-- integration test phase -->
+        <maven-failsafe-plugin.version>${maven-surefire-plugin.version}</maven-failsafe-plugin.version>
+        <!-- clean previous compilation binaries-->
+        <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version> 					
+        <!-- copy binary in local repository -->
+        <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
+        <!-- copy binary in remote repository -->
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version> 
+        <!-- other utils -->
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version> 
+        <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
+        <maven-war-plugin.version>3.1.0</maven-war-plugin.version>                 		
+        <versions-maven-plugin.version>2.4</versions-maven-plugin.version> 
+        <!-- Executing mvn versions:display-plugin-updates indicates that this version and plugin is not specified -->
+        <maven-site-plugin.version>3.6</maven-site-plugin.version>                       
+        <sonar-maven-plugin.version>3.3.0.603</sonar-maven-plugin.version>
+
+        <!-- Surefire and Failsafe plugin command line arguments -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    </properties>
+
+    <url>https://github.com/alfionso/finances</url>
+    <name>Financial tool</name>
+    <description>Financial tool</description>
+    <organization>
+        <name>Alfonso Marin</name>
+        <url>http://alfonsomarin.es/</url>
+    </organization>
+    <scm>
+        <connection>scm:git:https://github.com/alfionso/finances</connection>
+        <developerConnection>scm:git:https://github.com/alfionso/finances</developerConnection>
+        <url>https://github.com/alfionso/finances</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/alfionso/finances/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <id>1</id>
+            <name>Alfonso Marin</name>
+            <email>info@alfonsomarin.es</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <configuration>
+                    <!-- http://jira.codehaus.org/browse/MRESOURCES-104 -->
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <delimiters>
+                        <delimiter>${*}</delimiter>
+                    </delimiters>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!-- Note: patterns ["**/IT*.java,**/*IT.java","**/*ITCase.java] are included by default
+                # http://maven.apache.org/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <!-- Note: patterns [**/Test*.java,**/*Test.java,**/*TestCase.java are] included by default
+                 #  http://maven.apache.org/plugins-archives/maven-failsafe-plugin-2.11/examples/inclusion-exclusion.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven-clean-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>${maven-install-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <configuration>
+                    <pushChanges>false</pushChanges>
+                    <goals>deploy</goals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${versions-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven-site-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <modules>
+                <module>frontend</module>
+                <module>backend</module>
+                <module>release</module>
+                <module>docker</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>frontend</module>
+                <module>backend</module>
+                <module>release</module>
+            </modules>
+        </profile>
+    </profiles>
+
+</project>

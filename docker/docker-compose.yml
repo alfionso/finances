@@ -1,0 +1,29 @@
+version: '2'
+services:
+  greenmail:
+    image: greenmail/standalone:latest
+    container_name: finances-mail
+    ports:
+     - "3025:3025"
+     - "3110:3110"
+     - "3143:3143"
+     - "3465:3465"
+     - "3993:3993"
+     - "3995:3995"
+    environment:
+     - GREENMAIL_OPTS=-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled -Dgreenmail.users=admin:1234@finances.com,user:1234@finances.com -Dgreenmail.verbose
+    networks:
+     alfionso:
+      aliases:
+        - finances-mail
+  finances:
+    image: alfionso/finances:latest
+    container_name: finances
+    ports:
+      - "8090:8090"
+    networks:
+     alfionso:
+      aliases:
+        - finances
+networks:
+  alfionso:
